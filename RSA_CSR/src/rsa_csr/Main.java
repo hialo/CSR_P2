@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.Scanner;
 
 public class Main {
 
@@ -24,23 +25,20 @@ public class Main {
         PRNG random = new PRNG(N_LENGTH);
         RandomPrime prandom = new RandomPrime();
         
-        BigInteger val, p, q;
+        RSA rsa = new RSA(prandom, random, N_LENGTH);
         
-        while (true){
-            p = prandom.getRandomPrime(random, N_LENGTH, 5);
-            q = prandom.getRandomPrime(random, N_LENGTH, 5);
-            
-        if (q.compareTo(p) == 1)
-            val = Maths.euclideanAlgorithm(q, p);
-        else
-            val = Maths.euclideanAlgorithm(q, p);
+        Scanner in = new Scanner(System.in);
+        System.out.print("Please, enter something to encrypt: ");
+        String plainText = in.nextLine();
         
-        if (val.equals(BigInteger.ONE))
-            break;
-        }
-
-        System.out.println(p);
-        System.out.println(q);
-
+        System.out.println("Plain Text: " + plainText);
+        BigInteger cipherText = rsa.encrypt(plainText);
+        
+        System.out.println("Cipher Text: " + cipherText);
+        BigInteger decrypted = rsa.decrypt(cipherText);
+        String decryptPlainText = new String(decrypted.toByteArray());
+        
+        System.out.println("Decrypted: " + decryptPlainText);
+        
     }
 }
