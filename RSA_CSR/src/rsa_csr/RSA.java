@@ -3,24 +3,33 @@ package rsa_csr;
 import java.math.BigInteger;
 
 public class RSA {
-	public BigInteger val, p, q, n, phin, e, d;
+    public BigInteger val, p, q, n, phin, e, d;
 
-	public RSA(RandomPrime prandom, PRNG random, int length) {
-		while (true){
+    public RSA(RandomPrime prandom, PRNG random, int length) {
+        while (true){
             p = prandom.getRandomPrime(random, length, 5);
             q = prandom.getRandomPrime(random, length, 5);
             
-        if (q.compareTo(p) == 1)
-            val = Maths.euclideanAlgorithm(q, p);
-        else
-            val = Maths.euclideanAlgorithm(q, p);
-        
-        if (val.equals(BigInteger.ONE))
-            break;
+            if (q.compareTo(p) == 1)
+                val = Maths.euclideanAlgorithm(q, p);
+            else
+                val = Maths.euclideanAlgorithm(q, p);
+            
+            if (val.equals(BigInteger.ONE))
+                break;
         }
-
+        
+        System.out.println("P: " + p);
+        System.out.println("-----------------------------------");
+        System.out.println("Q: " + q);
+        System.out.println("-----------------------------------");
         n = p.multiply(q);
         phin = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
+        
+        System.out.println("N: " + n);
+        System.out.println("-----------------------------------");
+        System.out.println("PHI(N): " + phin);
+        System.out.println("-----------------------------------");
         
         while (true){
             e = prandom.getRandomPrime(random, length, 5);
@@ -33,11 +42,16 @@ public class RSA {
         if (val.equals(BigInteger.ONE))
             break;
         }
-        
         d = e.modInverse(phin);
-	}
-	
-	public BigInteger encrypt(BigInteger b) {
+        
+        System.out.println("E: "+ e);
+        System.out.println("-----------------------------------");
+        System.out.println("D: "+ d);
+        System.out.println("-----------------------------------");
+        
+    }
+    
+    public BigInteger encrypt(BigInteger b) {
         return b.modPow(e, n);
     }
 
