@@ -7,6 +7,8 @@ public class RSA {
 
     public RSA(RandomPrime prandom, PRNG random, int length) {
         while (true){
+            System.out.println("Seed size: ~ " + length * 8 + " bits. Calculating primes...");
+            
             p = prandom.getRandomPrime(random, length, 5);
             q = prandom.getRandomPrime(random, length, 5);
             
@@ -19,17 +21,18 @@ public class RSA {
                 break;
         }
         
-        System.out.println("P: " + p);
+        /*System.out.println("P: " + p);
         System.out.println("-----------------------------------");
         System.out.println("Q: " + q);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------");*/
+        
         n = p.multiply(q);
         phin = p.subtract(new BigInteger("1")).multiply(q.subtract(new BigInteger("1")));
         
-        System.out.println("N: " + n);
+        /*System.out.println("N: " + n);
         System.out.println("-----------------------------------");
         System.out.println("PHI(N): " + phin);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------");*/
         
         while (true){
             e = prandom.getRandomPrime(random, length, 5);
@@ -42,12 +45,13 @@ public class RSA {
         if (val.equals(BigInteger.ONE))
             break;
         }
+        
         d = e.modInverse(phin);
         
-        System.out.println("E: "+ e);
+        /*System.out.println("E: "+ e);
         System.out.println("-----------------------------------");
         System.out.println("D: "+ d);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------");*/
         
     }
     
